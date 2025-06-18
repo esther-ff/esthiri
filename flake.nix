@@ -102,7 +102,6 @@
         niri = package;
       };
 
-    in let
       systems = [ "x86_64-linux" ];
       forAllSystems = genAttrs systems;
     in {
