@@ -95,8 +95,11 @@
           '';
         };
 
-      genPackage = pkgs: {
-        niri = pkgs.callPackage (buildNiri inputs.stable-niri "25.05.1") { };
+      genPackage = pkgs: let
+        package = pkgs.callPackage (buildNiri inputs.stable-niri "25.05.1") { };
+      in {
+        default = package;
+        niri = package;
       };
 
     in let
