@@ -95,12 +95,14 @@
           '';
         };
 
-      genPackage = pkgs: {
-        niri = pkgs.callPackage (buildNiri inputs.stable-niri "25.05.1") { };
+      genPackage = pkgs: let
+        package = pkgs.callPackage (buildNiri inputs.stable-niri "25.05.1") { };
+      in {
+        default = package;
+        niri = package;
       };
 
-    in let
-      systems = [ "x86_64-linux" ];
+      systems = [ "x86_64-linux" "aarch64-linux" ];
       forAllSystems = genAttrs systems;
     in {
       packages = forAllSystems
