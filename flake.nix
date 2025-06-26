@@ -26,15 +26,19 @@
       systems = [ "x86_64-linux" "aarch64-linux" ];
       forAllSystems = genAttrs systems;
 
-      internals = { binds-to-attrsets-memo = import ./binds-to-attrsets.nix; };
+      internals = {
+        binds-to-attrsets-memo = import ./binds-to-attrsets.nix;
+        niri-config-to-settings =
+          inputs.nixpkgs.legacyPackages."x86_64-linux".runCommand
+          "niri-config-to-settings" { } ''
+            ls
+          '';
+      };
     in {
       # specific to this flake
       # not meant for actual use
 
-      test = {
-        file = internals.binds-to-attrsets-memo nixpkgs.lib
-          "${inputs.stable-niri}/niri-config/src/lib.rs";
-      };
+      test = internals.niri-config-to-settings;
 
       packages = forAllSystems
         (system: genPackage inputs.nixpkgs.legacyPackages.${system});
