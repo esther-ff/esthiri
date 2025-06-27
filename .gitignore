@@ -6,4 +6,6 @@ result-*
 .direnv
 
 # Ignore Rust builds
-./settings/target
+settings/target/*
+settings/target
+
